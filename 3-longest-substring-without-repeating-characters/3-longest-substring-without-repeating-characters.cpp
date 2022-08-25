@@ -8,7 +8,7 @@ public:
         while (i < s.size() && j < s.size()){
             while (st.find(s[j]) != st.end()){
                 ctr--;
-                st.erase(st.find(s[i]));
+                st.erase(s[i]);
                 i++;
             }
             ctr++;

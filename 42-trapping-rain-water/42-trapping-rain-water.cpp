@@ -1,23 +1,21 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int mxLeft = height[0];
-        int mxRight = height.back();
-
-        int l = 0, r = height.size() - 1;
-        int res = 0;
-        while (l < r){
-            if (mxLeft <= mxRight){
-                //move to the right
-                l++;
-                mxLeft = max(mxLeft, height[l]);
-                res += mxLeft - height[l];
-            }else{
-                r--;
-                mxRight = max(mxRight, height[r]);
-                res += mxRight - height[r];
-            }
+        int n = height.size();
+    int i = 0, j = n - 1;
+    int mxLeft = height[i], mxRight = height[j];
+    int res = 0;
+    while (i < j){
+        if (mxLeft <= mxRight){
+            res += mxLeft - height[i];
+            i++;
+            mxLeft = max(mxLeft, height[i]);
+        }else{
+            res += mxRight - height[j];
+            j--;
+            mxRight = max(mxRight, height[j]);
         }
+    }
         return res;
     }
 };

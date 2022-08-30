@@ -12,13 +12,6 @@ public:
             st.push({temperatures[i], i});
         }
 
-        while (!st.empty()){
-            pair<int, int> cur = st.top(); st.pop();
-            res[cur.second] = 0;
-        }
-
-        // for (auto e: res)
-        //     cout << e << " ";
         return res;
     }
 };

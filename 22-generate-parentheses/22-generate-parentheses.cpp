@@ -1,27 +1,28 @@
 class Solution {
 public:
     vector<string> generateParenthesis(int n) {
-        string s;
-        for (int i = 0; i < n; i++) s += "(";
-        for (int i = 0; i < n; i++) s += ")";
         vector<string> res;
-        do{
-            if (ok(s))
-                res.push_back(s);
-        } while (next_permutation(s.begin(), s.end()));
+        generate(n, 0, 0, "", res);
         return res;
     }
-    
-    bool ok(string s){
-        stack<char> st;
-        for (int i = 0; i < s.size(); i++){
-            if (s[i] == ')'){
-                if (st.empty())
-                    return false;
-                st.pop();
-            }else
-                st.push(s[i]);
+
+        void generate(int n, int open, int closed, string s, vector<string>& res){
+        if (open + closed > 2 * n)
+            return;
+
+        if (open == n && closed == n)
+        {
+            res.push_back(s);
+            return;
         }
-        return st.empty();
+
+
+        if (closed < open) {
+            generate(n, open, closed + 1, s + ")", res);
+            generate(n, open + 1, closed, s + "(", res);
+
+        }else{
+            generate(n, open + 1, closed, s + "(", res);
+        }
     }
 };

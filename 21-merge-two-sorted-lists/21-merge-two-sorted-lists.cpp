@@ -11,62 +11,29 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* l1Head = list1, *l2Head = list2;
-        ListNode* newHead = nullptr;
-        ListNode* toRet = nullptr;
+        if (list1 == nullptr && list2 == nullptr) return nullptr;
+        if (list1 == nullptr) return list2;
+        if (list2 == nullptr) return list1;
 
-        while (true){
-            if (l1Head && l2Head){
-                if (l1Head->val <= l2Head->val) {
-                    if (!newHead)
-                    {
-                        newHead = new ListNode(l1Head->val);
-                        toRet = newHead;
-                    }
-                    else {
-                        newHead->next = l1Head;
-                        newHead = newHead->next;
-                    }
-                    l1Head = l1Head->next;
-                }
-                else {
-                    if (!newHead)
-                    {
-                        newHead = new ListNode(l2Head->val);
-                        toRet = newHead;
-                    }
-                    else {
-                        newHead->next = l2Head;
-                        newHead = newHead->next;
-                    }
-                    l2Head = l2Head->next;
-                }
-            }else if (l1Head){
-                if (!newHead)
-                {
-                    newHead = new ListNode(l1Head->val);
-                    toRet = newHead;
-                }
-                else {
-                    newHead->next = l1Head;
-                    newHead = newHead->next;
-                }
-                l1Head = l1Head->next;
-            }else if (l2Head){
-                if (!newHead)
-                {
-                    newHead = new ListNode(l2Head->val);
-                    toRet = newHead;
-                }
-                else {
-                    newHead->next = l2Head;
-                    newHead = newHead->next;
-                }
-                l2Head = l2Head->next;
-            }else
-                break;
+        ListNode* head = nullptr;
+        if (list1->val <= list2->val) head = list1, list1 = list1->next;
+        else head = list2, list2 = list2->next;
+
+        ListNode* cur = head;
+        while (list1 && list2){
+            if (list1->val <= list2->val){
+                cur->next = list1;
+                list1 = list1->next;
+            }else{
+                cur->next = list2;
+                list2 = list2->next;
+            }
+            cur = cur->next;
         }
 
-        return toRet;
+        if (list1) cur->next = list1;
+        if (list2) cur->next = list2;
+
+        return head;
     }
 };

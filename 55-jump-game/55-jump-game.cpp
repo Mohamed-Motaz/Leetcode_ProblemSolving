@@ -1,11 +1,12 @@
 class Solution {
 public:
     int dp[10004];
+    vector<int> v;
 
-    bool solve(int idx, vector<int> &nums){
-        if (idx == nums.size() - 1)
+    bool solve(int idx){
+        if (idx == v.size() - 1)
             return true;
-        if (idx >= nums.size())
+        if (idx >= v.size())
             return false;
 
         int &ans = dp[idx];
@@ -14,8 +15,8 @@ public:
 
         ans = 0;
 
-        for (int i = idx; i < nums.size() && i <= idx + nums[idx]; i++){
-            ans += solve(i, nums);
+        for (int i = idx; i < v.size() && i <= idx + v[idx]; i++){
+            ans += solve(i);
             if (ans)
                 return ans = true;
         }
@@ -24,6 +25,7 @@ public:
 
     bool canJump(vector<int>& nums) {
         memset(dp, -1, sizeof dp);
-        return solve(0, nums);
+        v = nums;
+        return solve(0);
     }
 };

@@ -3,7 +3,6 @@ public:
     vector<int> productExceptSelf(vector<int>& nums) {
         vector<int> sol(nums.size());
 
-        int n = 1;
         int tmp = nums[0];
         for (int i = 1; i < nums.size(); i++)
         {

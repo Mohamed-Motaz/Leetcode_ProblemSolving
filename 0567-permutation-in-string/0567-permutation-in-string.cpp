@@ -1,34 +1,44 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-       unordered_map<char, int> mp;
-        for (char c : s1)
-            mp[c]++;
-
-        unordered_map<char, int> tmp = mp;
-        int l = 0;
-        for (int r = 0; r < s2.size(); r++)
-        {
-            if (mp.find(s2[r]) == mp.end())
-            {
-                l = r + 1;
-                tmp = mp;
-                continue;
-            }
-            tmp[s2[r]]--;
-            while (l < r && tmp[s2[r]] < 0)
-            {
-                tmp[s2[l]]++;
-                l++;
-            }
-            if (tmp[s2[r]] == 0)
-            {
-                tmp.erase(s2[r]);
-            }
-            if (tmp.size() == 0)
-                return true;
-        }
-
+       if (s1.size() > s2.size())
         return false;
+
+    int same = 0;
+    vector<int> frq1(26), frq2(26);
+
+    for (int i = 0; i < s1.size(); i++)
+    {
+        frq1[s1[i] - 'a']++;
+        frq2[s2[i] - 'a']++;
+    }
+
+    for (int i = 0; i < 26; i++)
+    {
+        if (frq1[i] == frq2[i])
+            same++;
+    }
+
+    for (int i = s1.size(); i < s2.size(); i++)
+    {
+        if (same == 26)
+            return true;
+
+        int idx = s2[i] - 'a';
+        frq2[idx]++;
+
+        if (frq2[idx] == frq1[idx])
+            same++;
+        else if (frq1[idx] + 1 == frq2[idx])
+            same--;
+
+        idx = s2[i - s1.size()] - 'a';
+        frq2[idx]--;
+        if (frq2[idx] == frq1[idx])
+            same++;
+        else if (frq1[idx] - 1 == frq2[idx])
+            same--;
+    }
+    return same == 26;
     }
 };

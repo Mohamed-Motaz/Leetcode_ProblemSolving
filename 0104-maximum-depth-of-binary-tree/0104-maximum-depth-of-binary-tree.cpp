@@ -12,10 +12,21 @@
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-        if (root == nullptr)
-            return 0;
-        int l = root->left == nullptr ? 1 : maxDepth(root->left) + 1;
-        int r = root->right == nullptr ? 1:  maxDepth(root->right) + 1;
-        return max(l, r);
+        deque<pair<TreeNode*, int>> dq;
+        dq.push_back({root, 0});
+        int mx = 0;
+        
+        while (dq.size()){
+            pair<TreeNode*, int> cur = dq.front();       
+            dq.pop_front();
+            if (cur.first == nullptr)
+                continue;
+            mx = max(mx, cur.second + 1);
+            dq.push_back({cur.first->left, cur.second + 1});
+            dq.push_back({cur.first->right, cur.second + 1});
+
+        }
+        return mx;
+        
     }
 };

@@ -6,9 +6,11 @@ public:
     {
         this->k = k;
         for (int e : nums)
+        {
             st.insert(e);
-        while (st.size() > k)
-            st.erase(st.begin());
+            if (st.size() > k)st.erase(st.begin());
+
+        }
     }
 
     int add(int val)

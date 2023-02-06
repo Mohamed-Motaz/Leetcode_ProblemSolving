@@ -2,7 +2,7 @@ class KthLargest {
 public:
     multiset<int> st;
     int k;
-    KthLargest(int k, vector<int> nums)
+    KthLargest(int k, vector<int>& nums)
     {
         this->k = k;
         for (int e : nums)

@@ -1,28 +1,20 @@
 class KthLargest {
 public:
-    multiset<int> st;
+    priority_queue<int, vector<int>, greater<int>> pq;
     int k;
-    KthLargest(int k, vector<int>& nums)
+    KthLargest(int k, vector<int> nums)
     {
         this->k = k;
         for (int e : nums)
-        {
-            st.insert(e);
-            if (st.size() > k)st.erase(st.begin());
-
-        }
+            pq.push(e);
     }
 
     int add(int val)
     {
-        if (st.size() < k)
-            st.insert(val);
-        else if (val > *st.begin())
-        {
-            st.erase(st.begin());
-            st.insert(val);
-        }
-        return *st.begin();
+        pq.push(val);
+        while (pq.size() > k)
+            pq.pop();
+        return pq.top();
     }
 };
 

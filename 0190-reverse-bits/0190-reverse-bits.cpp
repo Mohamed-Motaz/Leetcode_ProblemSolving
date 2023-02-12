@@ -4,13 +4,13 @@ public:
         uint32_t ans = 0;
         int p = 32;
         while (n){
-            int val = n & 1;
-            n >>= 1;
+            int val = n % 2;
+            n /= 2;
             p--;
             if (!val){
                 continue;
             }
-            ans |= 1 << p;
+            ans += pow(2, p);
         }
         return ans;
     }

@@ -35,22 +35,21 @@ public:
         for (int i = 1; i <= edges.size(); i++)
         make_set(i);
     
-        vector<int> sol;
         for (int i = 0; i < edges.size(); i++)
         {
             int a = find_set(edges[i][0]);
             int b = find_set(edges[i][1]);
 
-            if (a == b){
-                sol = {edges[i][0], edges[i][1]};
-                continue;
-            }
+            if (a == b)
+                return {edges[i][0], edges[i][1]};
+                
+            
             //union
             if (sz[a] < sz[b])
                 swap(a, b);
             parent[b] = a;
             sz[a] += sz[b];
         }
-        return sol;
+        return {};
     }
 };

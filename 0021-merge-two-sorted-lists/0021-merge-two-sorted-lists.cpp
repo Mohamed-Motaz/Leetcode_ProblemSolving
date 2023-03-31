@@ -10,30 +10,28 @@
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode *cur = new ListNode(INT32_MAX);
-        ListNode *res = cur;
+    ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
+    {
+        ListNode *head = new ListNode();
+        ListNode *tmp = head;
 
-        while (list1 || list2)
+        while (list1 && list2)
         {
-            cur->next = new ListNode();
-            cur = cur->next;
-
-            int f = list1 ? list1->val : INT32_MAX;
-            int s = list2 ? list2->val : INT32_MAX;
-
-            if (f < s)
-            {
-                cur->val = f;
+            if (list1->val < list2->val)
+            { 
+                head->next = list1;
                 list1 = list1->next;
             }
             else
             {
-                cur->val = s;
+                head->next = list2;
                 list2 = list2->next;
             }
+            head = head->next;
         }
+        if (list1) head->next = list1;
+        if (list2) head->next = list2;
 
-        return res->next;
+        return tmp->next;
     }
 };

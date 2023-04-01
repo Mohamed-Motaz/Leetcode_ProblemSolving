@@ -1,32 +1,26 @@
 class Solution {
 public:
-    int longestConsecutive(vector<int>& nums) {
-        unordered_map<int, pair<bool, bool>> mp; // mark if num is visited or not
-        for (int e : nums)
-            mp[e] = {1, 0};
+    int longestConsecutive(vector<int> &nums)
+    {
+        unordered_map<int, int> mp;
+        for (int &i : nums)
+            mp[i] = 1;
 
         int mx = 0;
-        for (int e : nums)
+        for (int i = 0; i < nums.size(); i++)
         {
-            int ctr = 1, num = e - 1;
-            while (mp[num].first)
+            int curNum = nums[i] - 1;
+            int ctr = 1;
+            while (mp[curNum] == 1)
             {
-                if (mp[num].second)
-                    break;
-                mp[num].second = 1;
-                ctr++, num--;
+                curNum--;
+                ctr++;
             }
-            num = e + 1;
-            while (mp[num].first)
-            {
-                if (mp[num].second)
-                    break;
-                mp[num].second = 1;
-                ctr++, num++;
-            }
-            mp[num].second = 1;
+            ctr += mp[curNum];
+            mp[nums[i]] = ctr;
             mx = max(mx, ctr);
         }
+
         return mx;
     }
 };

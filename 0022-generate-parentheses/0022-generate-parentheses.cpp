@@ -1,19 +1,27 @@
-void doWork(vector<string> &v, int n, int op, int cl, string s)
-{
-    if (op == n && cl == n)
-    {            
-        v.push_back(s);
-        return;
-    }
 
-    if (op < n) doWork(v, n, op + 1, cl, s + '(');
-    if (op > cl) doWork(v, n, op, cl + 1, s + ')');
-}
 class Solution {
 public:
+    void work(vector<string>& res, int n, string cur, int open, int closed){
+        if (open + closed == n * 2){
+            if (open == closed)
+                res.push_back(cur);
+            return;
+        }    
+        if (open == closed){
+            //must open
+            work(res, n, cur + "(", open + 1, closed);
+        }else{
+            if (open < n)
+                work(res, n, cur + "(", open + 1, closed);
+            work(res, n, cur + ")", open, closed + 1);
+
+        }
+    }
+    
     vector<string> generateParenthesis(int n) {
         vector<string> res;
-        doWork(res, n, 0, 0, "");
+        string s = "";
+        work(res, n, s, 0, 0);
         return res;
     }
 };

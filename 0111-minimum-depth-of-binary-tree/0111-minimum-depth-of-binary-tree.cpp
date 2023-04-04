@@ -13,7 +13,7 @@ class Solution {
 public:
 
     int minDepth(TreeNode* root) {
-        if (!root) return 0;
+        if (root == NULL) return 0;
         
         queue<TreeNode*> q;
         q.push(root);
@@ -22,7 +22,7 @@ public:
             int sz = q.size();
             for (int i = 0; i < sz; i++){
                 TreeNode* cur = q.front(); q.pop();
-                if (!cur->right && !cur->left)
+                if (cur->right == NULL && cur->left == NULL)
                     return ctr;
                 if (cur->left) q.push(cur->left);
                 if (cur->right) q.push(cur->right);

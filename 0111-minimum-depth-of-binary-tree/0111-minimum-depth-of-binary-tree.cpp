@@ -11,15 +11,13 @@
  */
 class Solution {
 public:
-    int work(TreeNode* root){
-        if (!root) return 1e6;
-        if (!root->left && !root->right){
-            return 1;
-        }
-        return min(work(root->left), work(root->right)) + 1;
-    }
+
     int minDepth(TreeNode* root) {
-        int ans = work(root);
-        return ans >= 1e6 ? 0 : ans;
+        if (!root) return 0;
+        int r = minDepth(root->right);
+        int l = minDepth(root->left);
+        if (!root->right) return l + 1;
+        if (!root->left) return r + 1;
+        return min(r, l) + 1;
     }
 };

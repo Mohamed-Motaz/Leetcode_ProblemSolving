@@ -2,13 +2,18 @@ class Solution {
 public:
     
     void work(vector<vector<int>> &res, vector<int>& cur, int idx, vector<int>& nums){
-        res.push_back(cur);
-        
-        for (int i = idx; i < nums.size(); i++){
-            cur.push_back(nums[i]);
-            work(res, cur, i + 1, nums);
-            cur.pop_back();
+        if (idx == nums.size()){
+            res.push_back(cur);
+            return;
         }
+        
+        //leave
+        work(res, cur, idx + 1, nums);
+        
+        //take
+        cur.push_back(nums[idx]);
+        work(res, cur, idx + 1, nums);
+        cur.pop_back();
     }
     
     vector<vector<int>> subsets(vector<int>& nums) {

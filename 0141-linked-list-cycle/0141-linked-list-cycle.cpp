@@ -9,11 +9,10 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_map<ListNode*, char> mp;
+        const int RANDOM_NUM = 1e6;
         while (head){
-            if (mp.find(head) != mp.end())
-                return true;
-            mp[head] = 1;
+            if (head->val == RANDOM_NUM) return true;       
+            head->val = RANDOM_NUM;
             head = head->next;   
         }
         return false;

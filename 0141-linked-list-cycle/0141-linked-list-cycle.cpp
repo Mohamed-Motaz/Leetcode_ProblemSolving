@@ -9,12 +9,19 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        const int RANDOM_NUM = 1e6;
-        while (head){
-            if (head->val == RANDOM_NUM) return true;       
-            head->val = RANDOM_NUM;
-            head = head->next;   
+        ListNode* slow = head, *fast = head;
+        while (fast){
+            fast = fast->next;
+            if (fast) 
+                fast = fast->next;
+            else
+                return false;
+            
+            slow = slow->next;
+            if (fast == slow)
+                return true;
         }
+        
         return false;
     }
 };

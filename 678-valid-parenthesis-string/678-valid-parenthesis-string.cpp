@@ -1,37 +1,33 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        deque<int> st;
-        queue<int> dq;
-        int all = 0;
-        int notClosed = 0;
+        stack<int> open, star;
+        
         for (int i = 0; i < s.size(); i++){
-            if (s[i] == '*') {
-                dq.push(i);
-            }
-            else if (s[i] == ')'){
-                if (!st.size()){
-                    if (dq.size()){
-                        dq.pop();
-                    }
-                    else return 0;
+            if (s[i] == '('){
+                open.push(i);
+            }else if (s[i] == ')'){
+                if (open.size())
+                    open.pop();
+                else if (star.size()){
+                    star.pop();
                 }else{
-                    st.pop_back();
+                    return false;
                 }
             }else{
-                st.push_back(i);
+                star.push(i);
             }
         }
-        while (st.size() && dq.size()){
-            int cur = st.front();
-            int help = dq.front();
-            if (help > cur){
-                st.pop_front();
-                dq.pop();
-            }else{
-                dq.pop();
+        
+        while (!open.empty() && !star.empty()){
+            int cur = star.top();
+            if (cur < open.top()){
+                star.pop();
+                continue;
             }
+            star.pop();
+            open.pop();
         }
-        return st.empty();
+        return open.empty();
     }
 };

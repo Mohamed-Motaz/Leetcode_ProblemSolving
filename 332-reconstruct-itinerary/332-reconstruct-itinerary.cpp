@@ -1,6 +1,8 @@
 class Solution {
 public:
-    bool solve(string cur, string par, unordered_map<string, multiset<string>> &mp, vector<string> &sol)
+    unordered_map<string, multiset<string>> mp;
+    vector<string> sol = {"JFK"};
+    bool solve(string cur)
     {
         if (mp.empty())
             return 1;
@@ -21,7 +23,7 @@ public:
                 mp.erase(cur);
 
             sol.push_back(*it);
-            bool done = solve(*it, cur, mp, sol);
+            bool done = solve(*it);
             if (done)
                 return 1;
             mp[cur].insert(*it);
@@ -32,13 +34,12 @@ public:
 
     vector<string> findItinerary(vector<vector<string>> &tickets)
     {
-        unordered_map<string, multiset<string>> mp;
+
         for (vector<string> &v : tickets)
         {
             mp[v[0]].insert(v[1]);
         }
-        vector<string> sol = {"JFK"};
-        solve("JFK", "", mp, sol);
+        solve("JFK");
         return sol;
     }
 };

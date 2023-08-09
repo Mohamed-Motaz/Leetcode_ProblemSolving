@@ -2,19 +2,25 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int tot = 0;
-        vector<int> mxRight(height.size());
-        mxRight[height.size() - 1] = height[height.size() - 1];
+        stack<int> st;
         
-        for (int i = height.size() - 2; i >= 0; i--)
-            mxRight[i] = max(height[i], mxRight[i + 1]);
-        
-        int mxLeft = height[0];
-        for (int i = 1; i < height.size() - 1; i++){
-            mxLeft = max(mxLeft, height[i]);
-            tot += max(0, min(mxRight[i], mxLeft) - height[i]);
+        int i = 0;
+        const int n = height.size();
+        while (i < n){
+            if (!st.empty()){
+                int prv = st.top();
+                if (height[i] < height[prv]){
+                    st.push(i++);
+                }else{
+                    st.pop();
+                    if (st.empty()) continue;
+                    tot += max(0, (i - st.top() - 1)  * ((min(height[i], height[st.top()]) - height[prv])));
+                }
+            }else{
+                //empty stack
+                st.push(i++);
+            }
         }
-        
-        
         return tot;
     }
 };

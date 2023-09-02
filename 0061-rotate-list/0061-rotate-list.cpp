@@ -14,35 +14,25 @@ public:
         if (!head)
             return NULL;
         
-        int sz = 0;
+        int sz = 1;
         ListNode* tmp = head;
         
-        while (tmp){
+        while (tmp->next){
             sz++;
             tmp = tmp->next;
         }
+        //circle the linked list
+        tmp->next = head;
+
         
         k %= sz;
-        if (!k)
-            return head;
-        tmp = head;
-        
-        
-        ListNode* newHead = tmp;
-        for (int i = 0; ; i++){
-            if (i == sz - k - 1){
-                ListNode* tmptmp = tmp->next;
-                tmp->next = NULL;
-                newHead = tmptmp;
-                break;
-            }
+
+        for (int i = 0; i < sz - k; i ++){
             tmp = tmp->next;
         }
-        tmp = newHead;
-        while (tmp->next){
-            tmp = tmp->next;
-        }
-        tmp->next = head;
-        return newHead;
+        
+        head = tmp->next;
+        tmp->next = NULL;
+        return head;
     }
 };

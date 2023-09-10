@@ -12,43 +12,34 @@ public:
         int x = grid.size();
         int y = grid[0].size();
         
-        int prvRotten = 0; for (int i = 0; i < x; i++) for (int j = 0; j < y; j++) prvRotten += grid[i][j] == 2;
-        int min = 1;
-        while (true){
-            
-            for (int i = 0; i < x; i++){
-                for (int j = 0; j < y; j++){
-                    if (grid[i][j] == 2){
-                        for (int a = 0; a < 4; a++){
-                            int newX = i + dX[a];
-                            int newY = j + dY[a];
-                            if (ok(x, y, newX, newY) && grid[newX][newY] == 1) grid[newX][newY] = -2;
-                        }
+        queue<pair<int, int>> q;
+
+        int fresh = 0;
+        for (int i = 0; i < x; i++) 
+            for (int j = 0; j < y; j++) 
+                if (grid[i][j] == 2) q.push(make_pair(i, j));
+                else if (grid[i][j] == 1) fresh++;
+        if (!fresh) return 0;
+        
+        int curMin = 1;
+        while (q.size()){
+            int n = q.size();
+            for (int i = 0; i < n; i++){
+                pair<int, int> p = q.front(); q.pop();
+                
+                for (int i = 0; i < 4; i++){
+                    int newX = p.first + dX[i];
+                    int newY = p.second + dY[i];
+                    if (ok(x, y, newX, newY) && grid[newX][newY] == 1){
+                        fresh--;
+                        grid[newX][newY] = 2;
+                        q.push(make_pair(newX, newY));
                     }
                 }
             }
-            
-            
-            
-            
-            
-            int curRotten = 0;
-            bool fresh = 0;
-            for (int i = 0; i < x; i++){
-                for (int j = 0; j < y; j++){
-                    grid[i][j] = abs(grid[i][j]); //remove the neg
-                    if (grid[i][j] == 2) curRotten++;
-                    if (grid[i][j] == 1) fresh = 1;
-                }
-            }
-            if (curRotten == prvRotten) {
-                if (fresh) return -1;
-                else return min - 1;
-            }
-            prvRotten = curRotten;
-            ++min;
+            if (!fresh) return curMin;
+            curMin++;
         }
-        
         return -1;
         
     }

@@ -15,13 +15,22 @@ public:
         return ans;
     }
     
+    //brute force solution
+    bool isPali(int left, int right, string &s){
+        while (left <= right && s[left] == s[right]){
+            left++, right--;
+        }
+        return left >= right;
+    }
+    
     
     int countSubstrings(string s) {
         dp.resize(s.size(), vector<int>(s.size(), -1));
         int cnt = 0;
         for (int i = 0; i < s.size(); i++){
             for (int j = i; j < s.size(); j++){
-                cnt += solve(i, j, s);
+                //cnt += solve(i, j, s);
+                cnt += isPali(i, j, s);
             }
         }
         

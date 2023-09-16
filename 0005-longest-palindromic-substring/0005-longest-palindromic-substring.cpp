@@ -2,10 +2,7 @@ class Solution {
 public:
     
     pair<int, int> solve(int left, int right, string &s){
-        int sz = 0;
         while (left >= 0 && right < s.size() && s[left] == s[right]){
-            if (left == right) sz++;
-            else sz+=2; 
             left--, right++;
         }
         return make_pair(++left, --right);

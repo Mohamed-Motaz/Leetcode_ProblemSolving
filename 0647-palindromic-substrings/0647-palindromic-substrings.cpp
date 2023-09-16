@@ -5,9 +5,10 @@ public:
     
     //dp solution
     int solve(int left, int right, string &s){
-        if (left >= right) return 1;
         int &ans = dp[left][right];
         if (ans != -1) return ans;
+        if (left >= right) return 1;
+
         ans = 0;
         if (s[left] == s[right]) ans += solve(left + 1, right - 1, s);
 

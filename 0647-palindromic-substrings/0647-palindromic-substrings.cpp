@@ -23,15 +23,28 @@ public:
         return left >= right;
     }
     
+    //optimized bf solution
+    int optimized(int left, int right, string &s){
+        int ctr = 0;
+        while (left >= 0 && right < s.size() && s[left] == s[right]){
+            ctr++; left--, right++;
+        }
+        return ctr;
+    }
     
     int countSubstrings(string s) {
-        dp.resize(s.size(), vector<int>(s.size(), -1));
+        //dp.resize(s.size(), vector<int>(s.size(), -1));
         int cnt = 0;
+        // for (int i = 0; i < s.size(); i++){
+        //     for (int j = i; j < s.size(); j++){
+        //         //cnt += solve(i, j, s);
+        //         //cnt += isPali(i, j, s);
+        //     }
+        // }
         for (int i = 0; i < s.size(); i++){
-            for (int j = i; j < s.size(); j++){
-                //cnt += solve(i, j, s);
-                cnt += isPali(i, j, s);
-            }
+            cnt += optimized(i, i, s); //odd
+            cnt += optimized(i, i + 1, s); //even
+            
         }
         
         return cnt;

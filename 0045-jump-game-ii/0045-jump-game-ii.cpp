@@ -32,12 +32,38 @@ public:
         return ans;
     }
     
+    //greedy
+    int greedy(vector<int> &nums){
+        int res = 0;
+        const int n = nums.size();
+        int i = 0;
+        
+        
+        while (i < n - 1){
+            if (i + nums[i] >= n - 1) {
+                res++;
+                break;
+            }
+            int furthest = 0;
+            int furthestIdx = 0;
+            for (int j = i + 1; j < n && j <= i + nums[i]; j++){
+                if (j + nums[j] > furthest){
+                    furthest = j + nums[j];
+                    furthestIdx = j;
+                }
+            }
+            i = furthestIdx;
+            res++;
+        }
+        return res;
+    }
     
     int jump(vector<int>& nums) {
         //return i_dp(nums);
         
-        dp.resize(nums.size(), -1);
-
-        return r_dp(0, nums);
+        // dp.resize(nums.size(), -1);
+        // return r_dp(0, nums);
+        
+        return greedy(nums);
     }
 };

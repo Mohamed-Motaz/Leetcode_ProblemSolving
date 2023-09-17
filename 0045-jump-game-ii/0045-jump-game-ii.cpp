@@ -36,25 +36,18 @@ public:
     int greedy(vector<int> &nums){
         int res = 0;
         const int n = nums.size();
-        int i = 0;
+        int l = 0, r = 0;
         
-        
-        while (i < n - 1){
-            if (i + nums[i] >= n - 1) {
-                res++;
-                break;
+        while (r < n - 1){
+            int far = 0;
+            for (int i = l; i <= r; i++){
+                far = max(far, i + nums[i]);
             }
-            int furthest = 0;
-            int furthestIdx = 0;
-            for (int j = i + 1; j < n && j <= i + nums[i]; j++){
-                if (j + nums[j] > furthest){
-                    furthest = j + nums[j];
-                    furthestIdx = j;
-                }
-            }
-            i = furthestIdx;
+            l = r;
+            r = far;
             res++;
         }
+        
         return res;
     }
     

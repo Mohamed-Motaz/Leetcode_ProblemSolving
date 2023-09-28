@@ -1,39 +1,36 @@
 class Solution {
 public:
-    vector<vector<int>> adjList;
-    queue<int> sources;
-    vector<int> inDegrees;
-    
-    
-    
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        adjList.resize(numCourses, vector<int>());
-        inDegrees.resize(numCourses, 0);
-        
+
+    vector<int> bfs(int numCourses, vector<vector<int>>& prerequisites){
+        vector<vector<int>> adjList(numCourses, vector<int>());
+        vector<int> inDegree(numCourses);
         for (vector<int> &v: prerequisites){
             adjList[v[1]].push_back(v[0]);
-            inDegrees[v[0]]++;
-        }    
-        
-        for (int i = 0; i < numCourses; i++){
-            if (!inDegrees[i]) sources.push(i);
+            inDegree[v[0]]++;
         }
-        if (sources.empty()) return {};
         
+        queue<int> q;
+        vector<int> res;
+        for (int i = 0; i < numCourses; i++){
+            if (!inDegree[i]) q.push(i);
+        }
         
-        vector<int> sol;
-        while (sources.size()){
-            int cur = sources.front();
-            sources.pop();
-
-            sol.push_back(cur);
-
-            for (int child: adjList[cur]){
-                inDegrees[child]--;
-                if (!inDegrees[child])
-                    sources.push(child);
+        while (q.size()){
+            int cur = q.front();
+            q.pop();
+            res.push_back(cur);
+            for (int i: adjList[cur]){
+                inDegree[i]--;
+                if (!inDegree[i]) q.push(i);
             }
         }
-        return sol.size() < numCourses ? vector<int>() : sol;
+        
+        return res.size() == numCourses ? res : vector<int>();
+    }
+    
+
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        return bfs(numCourses, prerequisites);
+        //return dfs(numCourses, prerequisites);
     }
 };

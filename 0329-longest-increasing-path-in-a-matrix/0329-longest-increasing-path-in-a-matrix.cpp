@@ -36,14 +36,55 @@ public:
         return mx;
     }
     
-    int bfs_sol(vector<vector<int>>& matrix){
-        return 0;
+    int top_sort_kahn_algo(vector<vector<int>>& matrix){
+        //start with all the leaves, and then move 1 by one to remove them
+        vector<vector<int>> inDegree(ROWS, vector<int>(COLS, 0));
+        for (int i = 0; i < ROWS; i++){
+            for (int j = 0; j < COLS; j++){
+                for (int k = 0; k < 4; k++){
+                    int newX = i + dx[k];
+                    int newY = j + dy[k];
+                    if (newX >= 0 && newX < ROWS && newY >= 0 && newY < COLS &&
+                        matrix[i][j] > matrix[newX][newY]){
+                        inDegree[i][j]++;
+                    }
+                }
+            }
+        }
+        
+        queue<pair<int, int>> q;
+        for (int i = 0; i < ROWS; i++) 
+            for (int j = 0; j < COLS; j++) 
+                if (!inDegree[i][j]) q.push(make_pair(i, j));
+        
+        int path = 0;
+        while (q.size()){
+            int sz = q.size();
+            for (int i = 0; i < sz; i++){
+                pair<int, int> p = q.front();
+                q.pop();
+                for (int k = 0; k < 4; k++){
+                    int newX = p.first + dx[k];
+                    int newY = p.second + dy[k];
+                    if (newX >= 0 && newX < ROWS && newY >= 0 && newY < COLS &&
+                        matrix[newX][newY] > matrix[p.first][p.second]){
+                        inDegree[newX][newY]--;
+                        if (!inDegree[newX][newY])
+                            q.push(make_pair(newX, newY));
+                    }
+                    
+                }
+            }
+            path++;
+        }
+        return path;
     }
     
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         ROWS = matrix.size();
         COLS = matrix[0].size();
-        vis.resize(ROWS, vector<int>(COLS, -1));
-        return dfs_dp(matrix);
+        // vis.resize(ROWS, vector<int>(COLS, -1));
+        // return dfs_dp(matrix);
+        return top_sort_kahn_algo(matrix);
     }
 };

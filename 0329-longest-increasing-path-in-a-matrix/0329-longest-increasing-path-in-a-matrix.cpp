@@ -25,7 +25,7 @@ public:
         return mx;
     }
     
-    int dfs_sol(vector<vector<int>>& matrix){
+    int dfs_dp(vector<vector<int>>& matrix){
         int mx = 0;
         for (int i = 0; i < ROWS; i++){
             for (int j = 0; j < COLS; j++){
@@ -44,6 +44,6 @@ public:
         ROWS = matrix.size();
         COLS = matrix[0].size();
         vis.resize(ROWS, vector<int>(COLS, -1));
-        return dfs_sol(matrix);
+        return dfs_dp(matrix);
     }
 };

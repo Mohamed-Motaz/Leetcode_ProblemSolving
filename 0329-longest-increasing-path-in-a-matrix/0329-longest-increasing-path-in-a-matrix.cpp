@@ -8,11 +8,11 @@ public:
     int dy[4] = {1, -1, 0, 0};
     
     int dfs(int x, int y, vector<vector<int>>& matrix){
-        if (vis[x][y] != -1)
+        int &mx = vis[x][y];
+        if (mx != -1)
             return vis[x][y];
         
-        vis[x][y] = 1;
-        int mx = 1;
+        mx = 1;
         for (int i = 0; i < 4; i++){
             int newX = x + dx[i];
             int newY = y + dy[i];

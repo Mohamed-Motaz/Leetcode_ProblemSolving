@@ -1,39 +1,30 @@
 class Solution {
 public:
     vector<int> minInterval(vector<vector<int>>& intervals, vector<int>& queries) {
-        vector<int> res(queries.size());
-        vector<int> sortedQueries = queries;
-        unordered_map<int, vector<int>> originalIdxes;
-        for (int i = 0; i < queries.size(); i++){
-            originalIdxes[queries[i]].push_back(i);
-        }
+        unordered_map<int, vector<int>> qIndexes(queries.size());
+        for (int i = 0; i < queries.size(); i++) qIndexes[queries[i]].push_back(i);
         
-        sort(sortedQueries.begin(), sortedQueries.end());
+        sort(queries.begin(), queries.end());
         sort(intervals.begin(), intervals.end());
         
-        int intervalsIdx = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq; //sz, and end
+        vector<int> res(queries.size());
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq; //sz, end
         
-        for (int i = 0; i < sortedQueries.size(); i++){
-            int toFind = sortedQueries[i];
-            while (intervalsIdx < intervals.size() && 
-                   toFind >= intervals[intervalsIdx][0]){
-                pq.push(make_pair(
-                    intervals[intervalsIdx][1] - intervals[intervalsIdx][0] + 1,
-                    intervals[intervalsIdx][1]));
-                intervalsIdx++;
+        int idx = 0;
+        for (int q: queries){
+            while (idx < intervals.size() && q >= intervals[idx][0]){
+                pq.push({intervals[idx][1] - intervals[idx][0] + 1,
+                        intervals[idx][1]});
+                idx++;
             }
-            //cout << toFind << " " << pq.size() << endl;
-            while (pq.size() && pq.top().second < toFind){
+            while (pq.size() && pq.top().second < q){
                 pq.pop();
             }
-            //cout << toFind << " " << pq.size() << endl; 
-
-            int idx = originalIdxes[toFind].back();
-            originalIdxes[toFind].pop_back();
-            pq.size() ? res[idx] = pq.top().first : res[idx] = -1;
+            
+            int idx = qIndexes[q].back();
+            qIndexes[q].pop_back();
+            res[idx] = pq.size() ? pq.top().first : -1;
         }
-        
         
         return res;
     }

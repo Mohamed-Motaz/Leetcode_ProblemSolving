@@ -18,10 +18,9 @@ public:
         dfs(idx + 1, nums, cur, sol);
         cur.pop_back();
         
-        idx++;
-        while (idx < nums.size() && nums[idx] == nums[idx - 1]){
+        while (idx + 1 < nums.size() && nums[idx] == nums[idx + 1]){
             idx++;
         }
-        dfs(idx, nums, cur, sol);
+        dfs(idx + 1, nums, cur, sol);
     }
 };

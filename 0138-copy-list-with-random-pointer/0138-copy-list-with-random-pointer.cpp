@@ -35,7 +35,27 @@ public:
         return st[head];
     }
     
+    Node* solveIterative(Node* head){
+        Node* n = head;
+        while (n){
+            st[n] = new Node(n->val);
+            n = n->next;
+        }
+        
+        n = head;
+        while (n){
+            if (n->next)
+                st[n]->next = st[n->next];
+            if (n->random)
+                st[n]->random = st[n->random];
+            n = n->next;
+        }
+        
+        return st[head];
+    }
+    
     Node* copyRandomList(Node* head) {
-        return solveRecursion(head);
+        //return solveRecursion(head);
+        return solveIterative(head);
     }
 };

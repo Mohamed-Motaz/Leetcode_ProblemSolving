@@ -14,13 +14,19 @@ public:
         return 0;
     }
     
-    bool bfs(int cur, int par, vector<vector<int>>& adjList, int destination){
+    bool bfs(int cur, vector<vector<int>>& adjList, int destination){
         queue<int> q;
         q.push(cur);
-        vis[cur] = 1;
         
         while (q.size()){
-                
+            int node = q.front(); q.pop();
+            if (node == destination)
+                return 1;
+            if (vis[node]) continue;
+            vis[node] = 1;
+            for (int child: adjList[node]){
+                q.push(child);
+            }
         }
         return 0;
     }
@@ -29,7 +35,7 @@ public:
         vis.resize(n);
         adjList.resize(n, vector<int>());
         for (auto &i: edges) adjList[i[0]].push_back(i[1]), adjList[i[1]].push_back(i[0]);
-        return dfs(source, adjList, destination);
-        return bfs(source, -1, adjList, destination);
+        //return dfs(source, adjList, destination);
+        return bfs(source, adjList, destination);
     }
 };

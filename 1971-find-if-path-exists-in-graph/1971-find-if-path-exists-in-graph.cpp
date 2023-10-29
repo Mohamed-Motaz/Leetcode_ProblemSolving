@@ -51,7 +51,7 @@ public:
         }
         
         //path compression
-        while (p != parents[p]){
+        while (p != root){
             int next = parents[p];
             parents[p] = root;
             p = next;
@@ -67,9 +67,11 @@ public:
         if (sz[pp] > sz[qq]){
             sz[pp] += sz[qq];
             parents[qq] = pp;
+            sz[qq] = 0;
         }else{
             sz[qq] += sz[pp];
             parents[pp] = qq;
+            sz[pp] = 0;
         }
         
     }

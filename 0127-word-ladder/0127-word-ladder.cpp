@@ -25,7 +25,7 @@ public:
                         copy[i] = c;
                         if (words.find(copy) != words.end()){
                             q.push(copy);
-                            words.erase(cur);
+                            // words.erase(cur);
                         }
                     }
                 }

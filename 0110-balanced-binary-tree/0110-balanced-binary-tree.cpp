@@ -12,24 +12,41 @@
 class Solution {
 public:
 
-    int getLen(TreeNode* root){
-        if (!root) return 0;
+//     int getLen(TreeNode* root){
+//         if (!root) return 0;
         
-        int left = getLen(root->left);
-        int right = getLen(root->right);
+//         int left = getLen(root->left);
+//         int right = getLen(root->right);
         
-        return 1 + max(left, right);
-    }
+//         return 1 + max(left, right);
+//     }
+    
+//     bool isBalanced(TreeNode* root) {
+//        if (!root) return 1;
+        
+//         int lenLeft = getLen(root->left);
+//         int lenRight = getLen(root->right);
+        
+//         if (abs(lenLeft - lenRight) > 1)
+//             return 0;
+        
+//         return isBalanced(root->left) && isBalanced(root->right);
+//     }
     
     bool isBalanced(TreeNode* root) {
-       if (!root) return 1;
+       return solve(root) >= 0 ? 1 : 0;
+    }
+    
+    //-ve signifies that they are not equal
+    int solve(TreeNode* root){
+        if (!root) return 0;
         
-        int lenLeft = getLen(root->left);
-        int lenRight = getLen(root->right);
+        int left = solve(root->left);
+        int right = solve(root->right);
         
-        if (abs(lenLeft - lenRight) > 1)
-            return 0;
+        if (left < 0 || right < 0 || abs(left - right) > 1)
+            return -1;
         
-        return isBalanced(root->left) && isBalanced(root->right);
+        return 1 + max(left, right);
     }
 };

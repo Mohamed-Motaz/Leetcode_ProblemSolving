@@ -16,7 +16,7 @@ public:
         
         for (int col = 0; col < n; col++){
             int pos = row + col;
-            int neg = row - col;
+            int neg = col - row;
             if (cols.find(col) != cols.end() ||
                 posDiagonal.find(pos) != posDiagonal.end() ||
                negDiagonal.find(neg) != negDiagonal.end()){

@@ -10,7 +10,7 @@
  */
 class Solution {
 public:
-    void reorderList(ListNode* head) {
+    void stackSol(ListNode* head){
         stack<ListNode*> st;
         ListNode* copy = head;
         while (copy){
@@ -42,6 +42,9 @@ public:
         //     cout << head->val << " ";
         //     head = head->next;
         // }
+    }
+    void reorderList(ListNode* head) {
+        stackSol(head);
     }
 };
 

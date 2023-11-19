@@ -19,10 +19,11 @@ public:
                     int dst = flights[i][1];
                     int cost = flights[i][2];
                 
+                    
                     if (dist[src] == INT32_MAX)
                         continue;
-                    if (dist[src] + cost < copy[dst])
-                        copy[dst] = dist[src] + cost;
+                    
+                    copy[dst] = min(copy[dst], dist[src] + cost);
                     
             }
             dist = copy;

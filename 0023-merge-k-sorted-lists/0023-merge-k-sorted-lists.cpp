@@ -10,7 +10,9 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
+    
+
+    ListNode* normalSol(vector<ListNode*>& lists){
         ListNode* head = new ListNode(INT32_MIN);
         ListNode* copy = head;
         unordered_set<ListNode*> lst;
@@ -42,5 +44,34 @@ public:
         }
         
         return copy->next;
+    }
+    
+    ListNode* pq(vector<ListNode*>& lists){
+        priority_queue<int, vector<int>, greater<>> p;
+        for (auto e: lists){
+            while (e){
+                p.push(e->val);
+                e = e->next;
+            }
+        }
+        
+        ListNode* head = new ListNode();
+        ListNode* copy = head;
+        
+        while (p.size()){
+            head->next = new ListNode(p.top());
+            p.pop();
+            head->next->next = NULL;
+            head = head->next;
+        }
+        
+        return copy->next;
+        
+    }
+    
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        //return normalSol(lists);
+        return pq(lists);
     }
 };

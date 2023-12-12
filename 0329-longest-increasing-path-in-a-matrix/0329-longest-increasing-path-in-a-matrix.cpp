@@ -29,7 +29,7 @@ public:
         int mx = 0;
         for (int i = 0; i < ROWS; i++){
             for (int j = 0; j < COLS; j++){
-                for (auto &e: vis) e.clear(); 
+                //for (auto &e: vis) e.clear(); 
                 mx = max(mx, dfs(i, j, matrix));
             }
         }
@@ -83,8 +83,8 @@ public:
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         ROWS = matrix.size();
         COLS = matrix[0].size();
-        // vis.resize(ROWS, vector<int>(COLS, -1));
-        // return dfs_dp(matrix);
-        return top_sort_kahn_algo(matrix);
+        vis.resize(ROWS, vector<int>(COLS, -1));
+        return dfs_dp(matrix);
+        //return top_sort_kahn_algo(matrix);
     }
 };

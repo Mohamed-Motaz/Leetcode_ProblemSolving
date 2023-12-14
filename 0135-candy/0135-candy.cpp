@@ -23,8 +23,49 @@ public:
         return res;
     }
     
+   
+    
     int candy(vector<int>& ratings) {
-        return twoWay(ratings);
+        //return twoWay(ratings);
+        return peaksAndValleys(ratings);
+    }
+    
+    int peaksAndValleys(vector<int>& ratings){
+        const int n = ratings.size();
+        int candy = n;
+        int i = 1;
+        
+        while (i < n){
+            //equal, so just start over from 1
+            while (i < n && ratings[i] == ratings[i - 1]){
+                i++;
+            }
+            
+            //inc slope
+            int peak = 0;
+            int ctr1 = 0;
+            while (i < n && ratings[i] > ratings[i - 1]){
+                i++;
+                peak++;
+                candy += peak;
+                ctr1++;
+            }
+            
+            //dec slope
+            int valley = 0;
+            int ctr2 = 0;
+            while (i < n && ratings[i] < ratings[i - 1]){
+                i++;
+                valley++;
+                candy += valley;
+                ctr2++;
+            }
+            //shift by 1 for dec
+            candy -= min(ctr1, ctr2);
+        }
+        
+        
+        return candy;
     }
 };
 

@@ -3,10 +3,10 @@ public:
     
     vector<vector<int>> dp;
     int solve(int idx1, int idx2, string &s, string &p){
-        if (idx2 >= p.size() && idx1 >= s.size())
+        if (idx2 == p.size() && idx1 == s.size())
             return 1;
         
-        if (idx2 >= p.size())
+        if (idx2 == p.size())
             return 0;
         
         int &ans = dp[idx1][idx2];

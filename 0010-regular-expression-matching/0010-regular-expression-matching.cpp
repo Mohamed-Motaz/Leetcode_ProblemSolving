@@ -8,6 +8,8 @@ public:
         
         if (idx2 == p.size())
             return 0;
+        //not the same case for idx1, because
+        //remaining pattern in idx2 can still be valid ex: a*
         
         int &ans = dp[idx1][idx2];
         if (ans != -1)

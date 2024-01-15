@@ -16,12 +16,18 @@ cnt as
     AND DATE_SUB(event_date, INTERVAL 1 DAY) = mn.first_day
 )
 
+# SELECT ROUND(
+#             CAST(cnt.total_logged_twice as DECIMAL) / 
+#             CAST(COUNT(distinct activity.player_id) as DECIMAL), 
+#     2) as fraction
+# FROM cnt
+# INNER JOIN activity;
+
 SELECT ROUND(
-            CAST(cnt.total_logged_twice as DECIMAL) / 
-            CAST(COUNT(distinct activity.player_id) as DECIMAL), 
-    2) as fraction
-FROM cnt
-INNER JOIN activity;
+    (SELECT total_logged_twice from cnt) /
+    (SELECT count(player_id) from mn),
+    2) as fraction;
+
 
 
 

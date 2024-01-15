@@ -13,7 +13,7 @@ cnt as
     FROM activity as a
     INNER JOIN mn
     ON a.player_id = mn.player_id
-    WHERE DATE_SUB(event_date, INTERVAL 1 DAY) = mn.first_day
+    AND DATE_SUB(event_date, INTERVAL 1 DAY) = mn.first_day
 )
 
 SELECT ROUND(

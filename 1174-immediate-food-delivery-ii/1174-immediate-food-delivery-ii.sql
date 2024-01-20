@@ -1,3 +1,4 @@
+# MY SOL
 WITH first_orders AS
 (
     SELECT customer_id, MIN(order_date) as order_date
@@ -18,75 +19,37 @@ WHERE d.order_date = d.customer_pref_delivery_date
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # # Write your MySQL query statement below
-
 # WITH first_orders as
 # (
 #     SELECT customer_id, MIN(order_date) as first_order
 #     FROM delivery
 #     GROUP BY customer_id
+# ),
+# first_orders_immediate as
+# (
+#     SELECT delivery.customer_id, delivery.order_date
+#     FROM delivery
+#     JOIN first_orders
+#     ON delivery.customer_id = first_orders.customer_id
+#     AND delivery.order_date = first_orders.first_order
+#     WHERE delivery.order_date = delivery.customer_pref_delivery_date
 # )
-# SELECT *
-# #COUNT(*), COUNT(distinct first_orders.customer_id), ROUND( COUNT(*) / COUNT(distinct first_orders.customer_id), 2) as immediate_percentage
+
+# SELECT ROUND(
+#     (CAST((SELECT COUNT(*) FROM first_orders_immediate) AS FLOAT)
+#         / 
+#     CAST((SELECT COUNT(first_orders.customer_id) from first_orders) AS FLOAT)
+#     )* 100
+#     ,2) as immediate_percentage
+
+# SELECT ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) as immediate_percentage
 # FROM delivery
-# INNER JOIN first_orders
-# ON delivery.customer_id = first_orders.customer_id
-# WHERE (delivery.customer_id, first_orders.first_order) 
+# WHERE 
+#     (customer_id, order_date)
 # IN
 #     (
-#         SELECT customer_id, order_date
-#         FROM delivery
-#         WHERE order_date = customer_pref_delivery_date
+#     SELECT customer_id, MIN(order_date) as first_order
+#     FROM delivery
+#     GROUP BY customer_id
 #     );
-
-
-
-
-

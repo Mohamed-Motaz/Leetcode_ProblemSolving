@@ -1,6 +1,28 @@
-#NEW SOL
+#NEW SOL 1
 
 
+# WITH first_change AS
+# (
+#     SELECT product_id, MAX(change_date) as change_date
+#     FROM Products
+#     WHERE change_date <= "2019-08-16"
+#     GROUP BY product_id
+# )
+
+# SELECT p.product_id, p.new_price as price
+# FROM Products as p
+# INNER JOIN first_change as fc
+# ON p.product_id = fc.product_id AND p.change_date = fc.change_date
+
+# UNION ALL
+
+# SELECT p.product_id, 10 as price
+# FROM Products as p
+# GROUP BY product_id
+# HAVING MIN(change_date) >  "2019-08-16";
+
+
+#NEW SOL 2
 WITH first_change AS
 (
     SELECT product_id, MAX(change_date) as change_date
@@ -8,18 +30,16 @@ WITH first_change AS
     WHERE change_date <= "2019-08-16"
     GROUP BY product_id
 )
-
-SELECT p.product_id, p.new_price as price
+SELECT p.product_id, (CASE WHEN tmp.price IS NULL THEN 10 ELSE tmp.price END) as price
 FROM Products as p
-INNER JOIN first_change as fc
-ON p.product_id = fc.product_id AND p.change_date = fc.change_date
-
-UNION ALL
-
-SELECT p.product_id, 10 as price
-FROM Products as p
-GROUP BY product_id
-HAVING MIN(change_date) >  "2019-08-16";
+LEFT JOIN (
+    SELECT p.product_id, p.new_price as price
+    FROM Products as p
+    INNER JOIN first_change as fc
+    ON p.product_id = fc.product_id AND p.change_date = fc.change_date
+) as tmp
+ON p.product_id = tmp.product_id
+GROUP BY p.product_id
 
 
 

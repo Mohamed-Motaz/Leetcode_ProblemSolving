@@ -45,32 +45,6 @@ GROUP BY p.product_id
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # # Write your MySQL query statement below
 
 # #great question
